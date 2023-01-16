@@ -18,15 +18,22 @@ pub struct Client {
 }
 
 impl Client {
-    pub fn new(api_key: Option<String>, secret_key: Option<String>, host: String) -> Self {
+    pub fn new(api_key: Option<String>, secret_key: Option<String>, host: String,proxy:Option<String>) -> Self {
         Client {
             api_key: api_key.unwrap_or_default(),
             secret_key: secret_key.unwrap_or_default(),
             host,
-            inner_client: reqwest::blocking::Client::builder()
+            inner_client: match proxy 
+            { Some(addr) => reqwest::blocking::Client::builder()
+                .proxy(reqwest::Proxy::all(addr).unwrap())
                 .pool_idle_timeout(None)
                 .build()
                 .unwrap(),
+                None => reqwest::blocking::Client::builder()
+                .pool_idle_timeout(None)
+                .build()
+                .unwrap(),
+            }
         }
     }
 

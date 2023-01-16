@@ -1,5 +1,6 @@
 #[derive(Clone, Debug)]
 pub struct Config {
+    pub proxy: Option<String>,
     pub rest_api_endpoint: String,
     pub ws_endpoint: String,
 
@@ -12,6 +13,7 @@ pub struct Config {
 impl Default for Config {
     fn default() -> Self {
         Self {
+            proxy: None,
             rest_api_endpoint: "https://api.binance.com".into(),
             ws_endpoint: "wss://stream.binance.com:9443/ws".into(),
 
@@ -24,6 +26,10 @@ impl Default for Config {
 }
 
 impl Config {
+    pub fn set_proxy<T: Into<String>>(mut self, proxy: T) -> Self {
+        self.proxy = Some(proxy.into());
+        self
+    }
     pub fn testnet() -> Self {
         Self::default()
             .set_rest_api_endpoint("https://testnet.binance.vision")
