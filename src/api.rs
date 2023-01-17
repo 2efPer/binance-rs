@@ -186,7 +186,7 @@ impl Binance for General {
         api_key: Option<String>, secret_key: Option<String>, config: &Config,
     ) -> General {
         General {
-            client: Client::new(api_key, secret_key, config.rest_api_endpoint.clone(),config.proxy.clone().clone()),
+            client: Client::new(api_key, secret_key, config.rest_api_endpoint.clone(),config.proxy.clone()),
         }
     }
 }
